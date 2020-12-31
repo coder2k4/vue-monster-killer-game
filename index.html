@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Убийца монстров на VUE</title>
+  <link
+      href="https://fonts.googleapis.com/css2?family=Jost:wght@400;700&display=swap"
+      rel="stylesheet"
+  />
+  <link rel="stylesheet" href="styles.css"/>
+  <script src="https://unpkg.com/vue@next" defer></script>
+  <script src="app.js" defer></script>
+</head>
+<body>
+<header>
+  <h1>Убийца монстров</h1>
+</header>
+<div id="game">
+  <section id="monster" class="container">
+    <h2>Жизни монстра</h2>
+    <div class="healthbar">
+      <div class="healthbar__value" :style="monsterHealthBar"></div>
+    </div>
+  </section>
+  <section id="player" class="container">
+    <h2>Ваши жизни</h2>
+    <div class="healthbar">
+      <div class="healthbar__value" :style="playerHealthBar"></div>
+    </div>
+  </section>
+  <section class="container" v-if="winner">
+    <h2>Бой завершен!</h2>
+    <h3 v-if="winner === 'player'">Поздравляем! Вы победили монстра!</h3>
+    <h3 v-else-if="winner === 'monster'">Вы проиграли, монстр сожрал Вас.</h3>
+    <h3 v-else>Ничья!!! Но, последний удар добил Вас...</h3>
+    <button @click="startNewGame">Новая игра</button>
+  </section>
+  <section id="controls" v-if="!winner">
+    <button @click="attackMonster">АТАКОВАТЬ</button>
+    <button :disabled="abilityAvailableSpecialAttack" @click="specialAttack">СУПЕР УДАР</button>
+    <button :disabled="abilityAvailableHealth" @click="healPlayer">ЛЕЧИТЬСЯ</button>
+    <button @click="block">БЛОКИРОВАТЬ</button>
+  </section>
+  <section id="log" class="container" v-if="battleLog.length > 0">
+    <h2>Лог боя</h2>
+    <ul>
+      <li v-for="log in battleLog" :key="log" v-html=log></li>
+    </ul>
+  </section>
+</div>
+</body>
+</html>
